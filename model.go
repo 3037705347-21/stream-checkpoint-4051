@@ -28,6 +28,6 @@ func cloneStrings(values []string) []string {
 
 func cloneMarkers(values []Marker) []Marker {
 	cloned := append([]Marker(nil), values...)
-	sort.Slice(cloned, func(i, j int) bool { return cloned[i].Shard > cloned[j].Shard })
+	sort.Slice(cloned, func(i, j int) bool { return cloned[i].Shard < cloned[j].Shard })
 	return cloned
 }
