@@ -34,7 +34,7 @@ type registry struct {
 }
 
 func newRegistry() *registry {
-	return &registry{}
+	return &registry{checkpoints: make(map[CheckpointID]*storedCheckpoint)}
 }
 
 func (r *registry) create(stream string, shards []string) Snapshot {
