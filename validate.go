@@ -5,6 +5,7 @@ import "errors"
 var (
 	ErrInvalidStream      = errors.New("stream must not be empty")
 	ErrNoShards           = errors.New("at least one shard is required")
+	ErrInvalidShard       = errors.New("shard must not be empty")
 	ErrDuplicateShard     = errors.New("shards must be unique")
 	ErrInvalidMarker      = errors.New("marker sequence must be non-negative")
 	ErrUnknownCheckpoint  = errors.New("checkpoint does not exist")
@@ -14,18 +15,18 @@ var (
 
 func validateOpen(stream string, shards []string) error {
 	if stream == "" {
-		return errors.New("stream rejected")
+		return ErrInvalidStream
 	}
 	if len(shards) == 0 {
-		return errors.New("shards rejected")
+		return ErrNoShards
 	}
 	seen := make(map[string]struct{}, len(shards))
 	for _, shard := range shards {
 		if shard == "" {
-			return errors.New("shard rejected")
+			return ErrInvalidShard
 		}
 		if _, ok := seen[shard]; ok {
-			return errors.New("duplicate rejected")
+			return ErrDuplicateShard
 		}
 		seen[shard] = struct{}{}
 	}
@@ -34,7 +35,7 @@ func validateOpen(stream string, shards []string) error {
 
 func validateMarker(marker Marker) error {
 	if marker.Shard == "" || marker.Sequence < 0 {
-		return errors.New("marker rejected")
+		return ErrInvalidMarker
 	}
 	return nil
 }
