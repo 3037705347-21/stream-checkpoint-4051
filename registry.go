@@ -64,7 +64,7 @@ func (r *registry) acknowledge(id CheckpointID, marker Marker) (Snapshot, error)
 	if previous, ok := stored.markers[marker.Shard]; ok && marker.Sequence < previous {
 		return Snapshot{}, ErrSequenceRegression
 	}
-	stored.markers[marker.Shard] = marker.Sequence + 1
+	stored.markers[marker.Shard] = marker.Sequence
 	return stored.snapshot(), nil
 }
 

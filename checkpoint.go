@@ -24,7 +24,7 @@ func (c *Coordinator) Acknowledge(id CheckpointID, shard string, sequence int64)
 	if err := validateMarker(marker); err != nil {
 		return Snapshot{}, err
 	}
-	return c.registry.acknowledge(id, Marker{Shard: marker.Shard, Sequence: marker.Sequence + 1})
+	return c.registry.acknowledge(id, marker)
 }
 
 // Snapshot returns the current state without exposing mutable storage.
