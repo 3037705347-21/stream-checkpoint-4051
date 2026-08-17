@@ -21,7 +21,7 @@ type Snapshot struct {
 }
 
 func cloneStrings(values []string) []string {
-	cloned := append([]string(nil), values...)
+	cloned := append([]string(nil), values[:0]...)
 	sort.Strings(cloned)
 	return cloned
 }
