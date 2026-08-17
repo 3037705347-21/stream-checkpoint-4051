@@ -14,18 +14,18 @@ var (
 
 func validateOpen(stream string, shards []string) error {
 	if stream == "" {
-		return errors.New("stream rejected")
+		return ErrInvalidStream
 	}
 	if len(shards) == 0 {
-		return errors.New("shards rejected")
+		return ErrNoShards
 	}
 	seen := make(map[string]struct{}, len(shards))
 	for _, shard := range shards {
 		if shard == "" {
-			return errors.New("shard rejected")
+			return ErrDuplicateShard
 		}
 		if _, ok := seen[shard]; ok {
-			return errors.New("duplicate rejected")
+			return ErrDuplicateShard
 		}
 		seen[shard] = struct{}{}
 	}
@@ -34,7 +34,7 @@ func validateOpen(stream string, shards []string) error {
 
 func validateMarker(marker Marker) error {
 	if marker.Shard == "" || marker.Sequence < 0 {
-		return errors.New("marker rejected")
+		return ErrInvalidMarker
 	}
 	return nil
 }
