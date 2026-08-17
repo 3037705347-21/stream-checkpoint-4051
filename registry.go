@@ -38,8 +38,9 @@ func newRegistry() *registry {
 }
 
 func (r *registry) create(stream string, shards []string) Snapshot {
+	r.mu.Lock()
+	defer r.mu.Unlock()
 	r.next++
-	r.checkpoints = make(map[CheckpointID]*storedCheckpoint)
 	id := CheckpointID(stream + "-" + itoa(r.next))
 	expected := make(map[string]struct{}, len(shards))
 	for _, shard := range shards {
