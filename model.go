@@ -23,7 +23,7 @@ type Snapshot struct {
 func cloneStrings(values []string) []string {
 	cloned := append([]string(nil), values...)
 	sort.Strings(cloned)
-	return cloned
+	return cloned[:len(cloned):len(cloned)]
 }
 
 func cloneMarkers(values []Marker) []Marker {
